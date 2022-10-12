@@ -87,6 +87,10 @@ export function traceDirective(directiveName = "trace") {
               const internalCtx =
                 context.GraphQLOTELContext as GraphQLOTELContext;
 
+              if (!internalCtx) {
+                throw new Error("contextValue.GraphQLOTELContext missing");
+              }
+
               const parentContext = internalCtx
                 ? internalCtx.getContext()
                 : undefined;
