@@ -1,6 +1,6 @@
 {
   "name": "graphql-otel",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0-alpha.3",
   "description": "Opentelemetry GraphQL Schema Directives.",
   "main": "./dist/index.js",
   "scripts": {
@@ -29,7 +29,6 @@
     "@opentelemetry/exporter-trace-otlp-http": "^0.33.0",
     "@opentelemetry/otlp-exporter-base": "^0.33.0",
     "@opentelemetry/resources": "^1.7.0",
-    "@opentelemetry/sdk-trace-base": "^1.7.0",
     "@swc/core": "^1.3.6",
     "@swc/jest": "^0.2.23",
     "@types/jest": "^29.1.2",
@@ -39,6 +38,7 @@
     "typescript": "^4.8.3"
   },
   "dependencies": {
+    "@opentelemetry/sdk-trace-base": "^1.7.0",
     "@graphql-tools/utils": "^8.12.0",
     "@opentelemetry/api": "^1.2.0",
     "@opentelemetry/core": "^1.7.0",
