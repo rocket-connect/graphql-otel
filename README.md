@@ -51,11 +51,23 @@ Then be able to debug and visualize thoes traces:
 
 ## Getting Started
 
+### Installing
+
+```
+$ npm install graphql-otel
+```
+
+#### Importing
+
+```js
+import { traceDirective, GraphQLOTELContext } from "graphql-otel";
+```
+
 ### Running Jaeger UI
 
 - https://www.jaegertracing.io/
 
-This is an open-source exporter, and it comes with a graphical interface. You collect the traces and spans from your GraphQL server and send them here. Then, once they are sent, you can visualize them like the image above.
+This is an open-source collector, and it comes with a graphical interface. You collect the traces and spans from your GraphQL server and send export them to here. Then, once they are sent, you can visualize them like the image above.
 
 To start this interface, I suggest you use Docker. Here is an all-in-one script to start jager.
 
