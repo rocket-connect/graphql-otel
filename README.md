@@ -4,7 +4,7 @@ Opentelemetry GraphQL Schema Directives.
 
 ## TL;DR
 
-What if you could trace your GraphQL query?
+What if you could add a trace directive on a GraphQL query?
 
 ```graphql
 type Query {
@@ -12,7 +12,7 @@ type Query {
 }
 ```
 
-Be able to add child span's on complex nested resolvers?
+Then, be able to add child span's on complex nested resolvers?
 
 ```graphql
 type User {
@@ -23,7 +23,7 @@ type User {
 }
 ```
 
-Including thoes nasty joins?
+Not forgetting about thoes nasty joins...
 
 ```diff
 type User {
@@ -45,9 +45,28 @@ type Comment {
 }
 ```
 
-Then be able to debug and visualize thoes traces:
+You could then issue this query:
+
+```graphql
+query {
+  users {
+    name
+    balance
+    posts {
+      title
+      comments {
+        content
+      }
+    }
+  }
+}
+```
+
+Outputting the following traces:
 
 ![Traces](https://user-images.githubusercontent.com/35999252/195374980-20c94be1-2836-4460-91b3-e4c1f0f2acbb.png)
+
+![Trace Graph](https://user-images.githubusercontent.com/35999252/195424763-c31b76a7-c58a-42f4-bd2b-c60406b8d1c6.png)
 
 ## Getting Started
 
