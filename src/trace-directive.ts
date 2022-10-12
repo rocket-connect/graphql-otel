@@ -1,67 +1,9 @@
 import { mapSchema, getDirective, MapperKind } from "@graphql-tools/utils";
-import {
-  context as otelContext,
-  Context,
-  Tracer,
-  SpanKind,
-  Attributes,
-} from "@opentelemetry/api";
-import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
+import { context as otelContext, Context } from "@opentelemetry/api";
 import { GraphQLSchema, defaultFieldResolver, print } from "graphql";
 import { GraphQLOTELContext } from "./context";
 import { Span } from "@opentelemetry/sdk-trace-base";
-
-type RunInChildSpanOptions = {
-  name: string;
-  context: Context;
-  tracer: Tracer;
-  parentSpan?: Span;
-  attributes?: Attributes;
-};
-
-async function runInSpan<R>(
-  options: RunInChildSpanOptions,
-  cb: (span: Span) => R | Promise<R>
-) {
-  if (options.parentSpan) {
-    const parentContext = options.parentSpan.spanContext();
-
-    // @ts-ignore
-    const span = new Span(
-      // @ts-ignore
-      options.tracer,
-      options.context,
-      options.name,
-      {
-        traceId: parentContext.traceId,
-        spanId: new RandomIdGenerator().generateSpanId(),
-        traceFlags: 1,
-      },
-      SpanKind.INTERNAL,
-      parentContext.spanId
-    );
-
-    try {
-      return await cb(span);
-    } finally {
-      span.end();
-    }
-  }
-
-  return options.tracer.startActiveSpan(
-    options.name,
-    { attributes: options.attributes },
-    options.context,
-    async (span) => {
-      try {
-        // @ts-ignore
-        return await cb(span);
-      } finally {
-        span.end();
-      }
-    }
-  );
-}
+import { runInSpan } from "./run-in-span";
 
 export function traceDirective(directiveName = "trace") {
   return {
