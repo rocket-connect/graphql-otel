@@ -1,8 +1,17 @@
 {
   "name": "graphql-otel",
-  "version": "0.0.0-alpha.3",
+  "version": "0.0.0-alpha.4",
   "description": "Opentelemetry GraphQL Schema Directives.",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danstarns/graphql-otel.git"
+  },
+  "homepage": "https://github.com/danstarns/graphql-otel#readme",
   "scripts": {
     "build": "tsc",
     "test": "jest"
@@ -20,7 +29,7 @@
     "README.md",
     "dist/"
   ],
-  "author": "danielstarns@hotmail.com",
+  "author": "Daniel Starns - danielstarns@hotmail.com",
   "license": "MIT",
   "devDependencies": {
     "@graphql-tools/schema": "^9.0.4",
