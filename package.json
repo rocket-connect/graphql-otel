@@ -1,6 +1,6 @@
 {
   "name": "graphql-otel",
-  "version": "0.0.0-alpha.1",
+  "version": "0.0.0-alpha.2",
   "description": "Opentelemetry GraphQL Schema Directives.",
   "main": "./dist/index.js",
   "scripts": {
@@ -14,6 +14,11 @@
     "trace",
     "directive",
     "opentelemetry"
+  ],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/"
   ],
   "author": "danielstarns@hotmail.com",
   "license": "MIT",
