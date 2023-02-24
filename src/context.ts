@@ -32,9 +32,9 @@ export class GraphQLOTELContext {
     return this.rootSpan;
   }
 
-  runInChildSpan(input: {
+  runInChildSpan<T = unknown>(input: {
     name: string;
-    cb: () => Promise<unknown>;
+    cb: () => Promise<T>;
     graphqlContext: Record<string, unknown> & {
       GraphQLOTELContext: GraphQLOTELContext;
     };
