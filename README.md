@@ -186,23 +186,23 @@ const sleep = util.promisify(setTimeout);
 
 const typeDefs = `
     type User {
-        name: String
-        age: Int
-        balance: Int @trace
-        posts: [Post] @trace
+      name: String
+      age: Int
+      balance: Int @trace
+      posts: [Post] @trace
     }
 
     type Post {
-        title: String
-        comments: [Comment] @trace
+      title: String
+      comments: [Comment] @trace
     }
 
     type Comment {
-        content: String
+      content: String
     }
 
     type Query {
-        users: [User] @trace
+      users: [User] @trace
     }
 `;
 
@@ -296,4 +296,4 @@ This package does not export traces to your collector, you must set this up your
 
 ## Licence
 
-MIT danielstarns - danielstarns@hotmail.com
+MIT Rocket Connect - www.rocketconnect.co.uk
