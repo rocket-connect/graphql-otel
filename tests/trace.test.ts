@@ -114,7 +114,21 @@ describe("@trace directive", () => {
         },
       },
       Post: {
-        comments: async () => {
+        comments: async (
+          source,
+          args,
+          context: { GraphQLOTELContext: GraphQLOTELContext }
+        ) => {
+          const childSpanInput = {
+            name: "test-child-span",
+            cb: async () => {
+              await sleep(300);
+            },
+            graphqlContext: context,
+          };
+
+          await context.GraphQLOTELContext.runInChildSpan(childSpanInput);
+
           // Simulate a join
           await sleep(300);
 
@@ -183,6 +197,15 @@ describe("@trace directive", () => {
       (child) => child.span.name === "Post:comments"
     );
     expect(commentsSnap).toBeDefined();
+
+    const testChildSpan = commentsSnap!.children.find(
+      (child) => child.span.name === "test-child-span"
+    );
+    expect(testChildSpan).toBeDefined();
+    // @ts-ignore
+    expect(commentsSnap!.span._spanContext.spanId).toEqual(
+      testChildSpan!.span.parentSpanId
+    );
   });
 
   test("should trace a mutation", async () => {

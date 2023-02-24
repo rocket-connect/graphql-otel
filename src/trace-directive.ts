@@ -63,6 +63,8 @@ export function traceDirective(directiveName = "trace") {
                     internalCtx.setRootSpan(span);
                   }
 
+                  context.currentSpan = span;
+
                   const result = await resolve(source, args, context, info);
 
                   context.parentSpan = span;
