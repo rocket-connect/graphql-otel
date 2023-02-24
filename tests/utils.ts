@@ -60,10 +60,7 @@ export function buildSpanTree(tree: SpanTree, spans: ReadableSpan[]): SpanTree {
     (key, value) => {
       const removedKeys = [
         "endTime",
-        "_ended",
-        "_spanContext",
         "startTime",
-        "resource",
         "_spanLimits",
         "status",
         "events",
