@@ -34,10 +34,8 @@ export class GraphQLOTELContext {
 
   runInChildSpan<T = unknown>(input: {
     name: string;
-    cb: () => Promise<T>;
-    graphqlContext: Record<string, unknown> & {
-      GraphQLOTELContext: GraphQLOTELContext;
-    };
+    cb: () => T;
+    graphqlContext: any;
   }): unknown {
     const internalCtx = input.graphqlContext
       .GraphQLOTELContext as GraphQLOTELContext;
