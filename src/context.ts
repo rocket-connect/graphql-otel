@@ -32,9 +32,9 @@ export class GraphQLOTELContext {
     return this.rootSpan;
   }
 
-  runInChildSpan<T = unknown>(input: {
+  runInChildSpan(input: {
     name: string;
-    cb: () => T;
+    cb: () => unknown;
     graphqlContext: any;
   }): unknown {
     const internalCtx = input.graphqlContext
