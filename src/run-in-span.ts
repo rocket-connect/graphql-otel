@@ -1,4 +1,10 @@
-import { Context, Tracer, SpanKind, Attributes } from "@opentelemetry/api";
+import {
+  Context,
+  Tracer,
+  SpanKind,
+  Attributes,
+  SpanStatusCode,
+} from "@opentelemetry/api";
 import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
 import { Span } from "@opentelemetry/sdk-trace-base";
 
@@ -35,7 +41,9 @@ export async function runInSpan<R>(
     try {
       return await cb(span);
     } catch (error) {
-      span.recordException(error as Error);
+      const e = error as Error;
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      span.recordException(e);
       throw error;
     } finally {
       span.end();
@@ -51,7 +59,9 @@ export async function runInSpan<R>(
         // @ts-ignore
         return await cb(span);
       } catch (error) {
-        span.recordException(error as Error);
+        const e = error as Error;
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        span.recordException(e);
         throw error;
       } finally {
         span.end();

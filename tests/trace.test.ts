@@ -10,6 +10,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { traceDirective } from "../src";
 import { graphql, parse, print } from "graphql";
 import { GraphQLOTELContext } from "../src/context";
+import { SpanStatusCode } from "@opentelemetry/api";
 
 const util = require("util");
 const sleep = util.promisify(setTimeout);
@@ -354,5 +355,10 @@ describe("@trace directive", () => {
     );
 
     expect(errorEvent).toBeDefined();
+
+    const errorStatus = spanTree.span.status;
+    expect(errorStatus).toBeDefined();
+    expect(errorStatus.code).toEqual(SpanStatusCode.ERROR);
+    expect(errorStatus.message).toEqual(randomString);
   });
 });
