@@ -34,6 +34,9 @@ export async function runInSpan<R>(
 
     try {
       return await cb(span);
+    } catch (error) {
+      span.recordException(error as Error);
+      throw error;
     } finally {
       span.end();
     }
@@ -47,6 +50,9 @@ export async function runInSpan<R>(
       try {
         // @ts-ignore
         return await cb(span);
+      } catch (error) {
+        span.recordException(error as Error);
+        throw error;
       } finally {
         span.end();
       }

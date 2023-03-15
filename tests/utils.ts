@@ -63,7 +63,6 @@ export function buildSpanTree(tree: SpanTree, spans: ReadableSpan[]): SpanTree {
         "startTime",
         "_spanLimits",
         "status",
-        "events",
         "instrumentationLibrary",
         "_spanProcessor",
         "_attributeValueLengthLimit",

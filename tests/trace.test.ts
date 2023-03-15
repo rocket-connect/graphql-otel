@@ -289,4 +289,70 @@ describe("@trace directive", () => {
     );
     expect(postsSpan).toBeDefined();
   });
+
+  test("should append graphql error to trace", async () => {
+    const randomString = Math.random().toString(36).substring(7);
+
+    const typeDefs = `
+      type User {
+        name: String
+        age: Int
+      }
+
+      type Query {
+        users: [User] @trace
+      }
+    `;
+
+    const resolvers = {
+      Query: {
+        users: async () => {
+          throw new Error(randomString);
+        },
+      },
+    };
+
+    const trace = traceDirective();
+
+    let schema = makeExecutableSchema({
+      typeDefs: [typeDefs, trace.typeDefs],
+      resolvers,
+    });
+
+    schema = trace.transformer(schema);
+
+    const query = `
+      query {
+        users {
+          name
+          age
+        }
+      }
+    `;
+
+    const { errors } = await graphql({
+      schema,
+      source: query,
+      contextValue: {
+        GraphQLOTELContext: new GraphQLOTELContext(),
+      },
+    });
+
+    expect(errors).toBeDefined();
+
+    const spans = inMemorySpanExporter.getFinishedSpans();
+    const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
+    const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
+
+    expect(spanTree.span.name).toEqual("Query:users");
+    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+
+    const events = spanTree.span.events;
+
+    const errorEvent = events.find(
+      (e) => (e.attributes as any)["exception.message"] === randomString
+    );
+
+    expect(errorEvent).toBeDefined();
+  });
 });
