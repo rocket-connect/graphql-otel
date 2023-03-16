@@ -1,6 +1,6 @@
 {
   "name": "graphql-otel",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Opentelemetry GraphQL Schema Directives.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
