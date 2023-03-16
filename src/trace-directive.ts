@@ -4,6 +4,7 @@ import { GraphQLSchema, defaultFieldResolver, print } from "graphql";
 import { GraphQLOTELContext } from "./context";
 import { Span } from "@opentelemetry/sdk-trace-base";
 import { runInSpan } from "./run-in-span";
+import safeJSON from "safe-json-stringify";
 
 export function traceDirective(directiveName = "trace") {
   return {
@@ -55,7 +56,22 @@ export function traceDirective(directiveName = "trace") {
                   tracer: internalCtx.tracer,
                   parentSpan,
                   ...(isRoot
-                    ? { attributes: { query: print(info.operation) } }
+                    ? {
+                        attributes: {
+                          query: print(info.operation),
+                          ...(internalCtx.includeVariables
+                            ? { variables: safeJSON(args) }
+                            : {}),
+                          ...(internalCtx.includeContext
+                            ? {
+                                context: safeJSON({
+                                  ...context,
+                                  GraphQLOTELContext: undefined,
+                                }),
+                              }
+                            : {}),
+                        },
+                      }
                     : {}),
                 },
                 async (span) => {

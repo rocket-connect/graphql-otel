@@ -361,4 +361,81 @@ describe("@trace directive", () => {
     expect(errorStatus.code).toEqual(SpanStatusCode.ERROR);
     expect(errorStatus.message).toEqual(randomString);
   });
+
+  test("should append graphql variables and context to trace", async () => {
+    const randomName = Math.random().toString(36).substring(7);
+
+    const typeDefs = `
+      type User {
+        name: String
+        age: Int
+      }
+
+      type Query {
+        users(name: String!): [User] @trace
+      }
+    `;
+
+    const resolvers = {
+      Query: {
+        users: async (root, { name }) => {
+          return [{ name, age: 23 }];
+        },
+      },
+    };
+
+    const trace = traceDirective();
+
+    let schema = makeExecutableSchema({
+      typeDefs: [typeDefs, trace.typeDefs],
+      resolvers,
+    });
+
+    schema = trace.transformer(schema);
+
+    const query = `
+      query($name: String!) {
+        users(name: $name) {
+          name
+          age
+        }
+      }
+    `;
+
+    const { errors } = await graphql({
+      schema,
+      source: query,
+      variableValues: {
+        name: randomName,
+      },
+      contextValue: {
+        name: randomName,
+        GraphQLOTELContext: new GraphQLOTELContext({
+          includeContext: true,
+          includeVariables: true,
+        }),
+      },
+    });
+
+    expect(errors).toBeUndefined();
+
+    const spans = inMemorySpanExporter.getFinishedSpans();
+    const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
+    const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
+
+    expect(spanTree.span.name).toEqual("Query:users");
+    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+
+    expect(
+      JSON.parse(spanTree.span.attributes.variables as string)
+    ).toMatchObject({
+      name: randomName,
+    });
+
+    expect(
+      JSON.parse(spanTree.span.attributes.context as string)
+    ).toMatchObject({
+      name: randomName,
+    });
+  });
 });

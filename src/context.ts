@@ -7,12 +7,21 @@ import {
 import { Span } from "@opentelemetry/sdk-trace-base";
 import { runInSpan } from "./run-in-span";
 
+export interface GraphQLOTELContextOptions {
+  includeContext?: boolean;
+  includeVariables?: boolean;
+}
+
 export class GraphQLOTELContext {
   private context?: Context;
   public tracer: Tracer;
   private rootSpan?: Span;
+  public includeContext?: boolean;
+  public includeVariables: boolean;
 
-  constructor() {
+  constructor(options: GraphQLOTELContextOptions = {}) {
+    this.includeContext = options.includeContext;
+    this.includeVariables = options.includeVariables || false;
     this.tracer = trace.getTracer("graphql-otel");
   }
 
