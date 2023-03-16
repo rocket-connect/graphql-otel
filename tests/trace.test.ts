@@ -364,6 +364,7 @@ describe("@trace directive", () => {
 
   test("should append graphql variables and context to trace", async () => {
     const randomName = Math.random().toString(36).substring(7);
+    const excludeContext = Math.random().toString(36).substring(7);
 
     const typeDefs = `
       type User {
@@ -410,9 +411,11 @@ describe("@trace directive", () => {
       },
       contextValue: {
         name: randomName,
+        [excludeContext]: excludeContext,
         GraphQLOTELContext: new GraphQLOTELContext({
           includeContext: true,
           includeVariables: true,
+          excludeKeysFromContext: [excludeContext],
         }),
       },
     });
@@ -426,16 +429,16 @@ describe("@trace directive", () => {
     expect(spanTree.span.name).toEqual("Query:users");
     expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
 
-    expect(
-      JSON.parse(spanTree.span.attributes.variables as string)
-    ).toMatchObject({
+    const variables = JSON.parse(spanTree.span.attributes.variables as string);
+    expect(variables).toMatchObject({
       name: randomName,
     });
 
-    expect(
-      JSON.parse(spanTree.span.attributes.context as string)
-    ).toMatchObject({
+    const context = JSON.parse(spanTree.span.attributes.context as string);
+    expect(context).toMatchObject({
       name: randomName,
     });
+
+    expect(context[excludeContext]).toBeUndefined();
   });
 });

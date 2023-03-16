@@ -49,6 +49,19 @@ export function traceDirective(directiveName = "trace") {
 
               const name = `${info.parentType.name}:${fieldConfig.astNode?.name.value}`;
 
+              const attributeContext = {
+                ...context,
+                GraphQLOTELContext: undefined,
+              };
+
+              if (internalCtx?.excludeKeysFromContext?.length) {
+                Object.keys(attributeContext).forEach((key) => {
+                  if (internalCtx?.excludeKeysFromContext?.includes(key)) {
+                    delete attributeContext[key];
+                  }
+                });
+              }
+
               const result = await runInSpan(
                 {
                   name,
@@ -64,10 +77,7 @@ export function traceDirective(directiveName = "trace") {
                             : {}),
                           ...(internalCtx.includeContext
                             ? {
-                                context: safeJSON({
-                                  ...context,
-                                  GraphQLOTELContext: undefined,
-                                }),
+                                context: safeJSON(attributeContext),
                               }
                             : {}),
                         },

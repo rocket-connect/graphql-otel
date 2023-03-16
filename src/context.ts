@@ -10,6 +10,7 @@ import { runInSpan } from "./run-in-span";
 export interface GraphQLOTELContextOptions {
   includeContext?: boolean;
   includeVariables?: boolean;
+  excludeKeysFromContext?: string[];
 }
 
 export class GraphQLOTELContext {
@@ -17,11 +18,13 @@ export class GraphQLOTELContext {
   public tracer: Tracer;
   private rootSpan?: Span;
   public includeContext?: boolean;
-  public includeVariables: boolean;
+  public includeVariables?: boolean;
+  public excludeKeysFromContext?: string[];
 
   constructor(options: GraphQLOTELContextOptions = {}) {
     this.includeContext = options.includeContext;
-    this.includeVariables = options.includeVariables || false;
+    this.includeVariables = options.includeVariables;
+    this.excludeKeysFromContext = options.excludeKeysFromContext;
     this.tracer = trace.getTracer("graphql-otel");
   }
 
