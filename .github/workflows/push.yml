@@ -13,5 +13,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
+      - run: cp ./README.md ./package/README.md
       - run: cd ./package && npm ci
       - run: cd ./package && npm run test
