@@ -1,11 +1,11 @@
-import { githubwhite, logo } from "../images";
+import { githubwhite, logo, npmwhite } from "../images";
 import { Container } from "./Container";
 
 export function Header() {
   return (
-    <div className="w-full py-3">
+    <div className="w-full py-5">
       <Container>
-        <div className="flex justify-between content-center">
+        <div className="flex justify-between">
           <div className="w-1/2">
             <div className="w-16">
               <img src={logo} alt="logo" />
@@ -14,11 +14,15 @@ export function Header() {
           </div>
 
           <div className="flex gap-10 my-5">
-            <div className="w-8">
-              <img src={githubwhite} alt="githubwhite" />
+            <div className="w-8 pt-3">
+              <a href="https://www.npmjs.com/package/graphql-otel">
+                <img src={npmwhite} alt="npmwhite" />
+              </a>
             </div>
             <div className="w-8">
-              <img src={githubwhite} alt="githubwhite" />
+              <a href="https://github.com/rocket-connect/graphql-otel">
+                <img src={githubwhite} alt="githubwhite" />
+              </a>
             </div>
           </div>
         </div>

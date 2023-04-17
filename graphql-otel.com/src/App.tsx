@@ -1,3 +1,5 @@
+import { Footer } from "./components/Footer";
+import { GettingStarted } from "./components/GettingStarted";
 import { Header } from "./components/Header";
 import { Intro } from "./components/Intro";
 import { Supported } from "./components/Supported";
@@ -8,6 +10,8 @@ function App() {
       <Header />
       <Intro />
       <Supported />
+      <GettingStarted />
+      <Footer />
     </div>
   );
 }
