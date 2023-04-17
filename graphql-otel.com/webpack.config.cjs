@@ -2,6 +2,9 @@ require("dotenv").config({ path: "./.env" });
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
@@ -12,6 +15,14 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".mjs", ".json", ".js"],
   },
+  ...(process.env.NODE_ENV === "production"
+    ? {
+        optimization: {
+          minimize: true,
+          minimizer: [new TerserPlugin()],
+        },
+      }
+    : {}),
   module: {
     rules: [
       {
@@ -19,6 +30,28 @@ module.exports = {
         loader: "ts-loader",
         exclude: "/node_modules/",
         options: { transpileOnly: true },
+      },
+      {
+        test: /\.(png|jpg|woff|woff2|eot|ttf)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "svg-url-loader",
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
       },
       {
         test: /\.(css|scss)$/,
@@ -34,15 +67,21 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: ["public"],
+    }),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        WEBPACK_DEV_PORT: JSON.stringify(process.env.WEBPACK_DEV_PORT),
         API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      favicon: "./public/favicon.svg",
     }),
+    ...(process.env.NODE_ENV === "production" ? [new CompressionPlugin()] : []),
   ],
   devServer: {
     static: {
