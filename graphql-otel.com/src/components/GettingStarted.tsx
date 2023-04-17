@@ -41,25 +41,30 @@ export function GettingStarted() {
             </div>
           </div>
 
-          <div className="mt-40 text-right">
-            <h2 className="text-4xl">Need More Help?</h2>
-            <p className="mt-10 italic">
-              We provide specialized support for GraphQL API's.
-            </p>
+          <div>
+            <hr className="h-1 my-5 bg-graphql-otel-green border-0" />
 
-            <p className="mt-5 italic">Contact us to setup a call.</p>
+            <div className="pt-20 text-right">
+              <h2 className="text-4xl">Need More Help?</h2>
 
-            <p className="mt-5">
-              <a
-                href="https://rocketconnect.co.uk"
-                className="text-white italic underline decoration-graphql-otel-green underline-offset-8"
-              >
-                https://rocketconnect.co.uk
-              </a>
-            </p>
+              <p className="mt-10 italic">
+                We provide specialized support for GraphQL API's.
+              </p>
 
-            <div className="mt-10 flex justify-end">
-              <Contact />
+              <p className="mt-5 italic">Contact us to setup a call.</p>
+
+              <p className="mt-5">
+                <a
+                  href="https://rocketconnect.co.uk"
+                  className="text-white italic underline decoration-graphql-otel-green underline-offset-8"
+                >
+                  https://rocketconnect.co.uk
+                </a>
+              </p>
+
+              <div className="mt-10 flex justify-end">
+                <Contact />
+              </div>
             </div>
           </div>
         </div>
