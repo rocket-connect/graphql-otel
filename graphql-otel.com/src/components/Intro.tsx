@@ -5,7 +5,7 @@ export function Intro() {
   return (
     <div className="py-10">
       <Container>
-        <div className="flex justify-between gap-40">
+        <div className="flex flex-col lg:flex-row justify-between gap-40">
           <div className="text-white d-flex flex-col">
             <h1 className="text-5xl my-5 bold">GraphQL OTEL</h1>
             <p className="mb-10 italic">
@@ -22,7 +22,7 @@ export function Intro() {
             </button>
           </div>
 
-          <div className="w-1/2">
+          <div className="w-3/6">
             <img src={examplepatients} alt="code" />
           </div>
         </div>

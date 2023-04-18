@@ -6,7 +6,7 @@ export function GettingStarted() {
   return (
     <div className="text-white py-20">
       <Container>
-        <div className="flex justify-between">
+        <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col flex-1">
             <div>
               <h2 className="text-4xl">Getting Started</h2>
@@ -30,12 +30,12 @@ export function GettingStarted() {
                 </ul>
               </p>
 
-              <div className="mt-40 w-2/3">
+              <div className="hidden lg:block mt-40 w-2/3">
                 <img src={examplepatients} alt="code" />
               </div>
             </div>
 
-            <div className="mx-auto w-20 mt-auto">
+            <div className="hidden lg:block mx-auto w-20 mt-auto">
               <img src={logo} alt="logo" />
             </div>
           </div>
@@ -43,7 +43,7 @@ export function GettingStarted() {
           <div>
             <hr className="h-1 my-5 bg-graphql-otel-green border-0" />
 
-            <div className="pt-20 text-right">
+            <div className="pt-10 text-right">
               <h2 className="text-4xl">Need More Help?</h2>
 
               <p className="mt-10 italic">
@@ -61,7 +61,7 @@ export function GettingStarted() {
                 </a>
               </p>
 
-              <div className="mt-10 flex justify-end">
+              <div className="mt-10 flex justify-center lg:justify-end p-3">
                 <Contact />
               </div>
             </div>

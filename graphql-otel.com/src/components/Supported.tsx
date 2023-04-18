@@ -32,7 +32,7 @@ export function Supported() {
   return (
     <div className="bg-white">
       <Container>
-        <div className="flex justify-between py-10">
+        <div className="flex flex-col lg:flex-row justify-between gap-10 py-10">
           {supported.map((item) => (
             <div className="flex flex-col justify-center align-center text-center gap-5">
               <h3 className="font-bold">{item.name}</h3>
