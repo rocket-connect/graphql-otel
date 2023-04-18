@@ -6,7 +6,7 @@ import { Supported } from "./components/Supported";
 
 function App() {
   return (
-    <div className="bg-graphql-otel-dark gradient-background">
+    <div className="bg-graphql-otel-dark gradient-background overflow-hidden">
       <Header />
       <Intro />
       <Supported />
