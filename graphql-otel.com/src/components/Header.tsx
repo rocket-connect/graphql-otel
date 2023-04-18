@@ -3,7 +3,7 @@ import { Container } from "./Container";
 
 export function Header() {
   return (
-    <div className="w-full py-5">
+    <div className="w-full pt-5">
       <Container>
         <div className="flex justify-between">
           <div className="w-1/2">

@@ -3,11 +3,11 @@ import { Container } from "./Container";
 
 export function Intro() {
   return (
-    <div className="py-20">
+    <div className="py-10">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between gap-5">
           <div className="text-white d-flex flex-col">
-            <h1 className="font-bold text-4xl lg:text-5xl mb-5 bold">
+            <h1 className="font-bold text-3xl lg:text-4xl mb-5 bold">
               GraphQL OTEL
             </h1>
             <p className="mb-5 italic">
@@ -24,7 +24,7 @@ export function Intro() {
             </button>
           </div>
 
-          <div className="w-80 mx-auto lg:mx-0 lg:w-3/6 my-5">
+          <div className="w-80 mx-auto lg:mx-0 lg:w-3/6 mt-auto">
             <img src={examplepatients} alt="code" />
           </div>
         </div>
