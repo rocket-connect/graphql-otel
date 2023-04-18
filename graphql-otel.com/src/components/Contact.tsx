@@ -57,7 +57,7 @@ export function Contact() {
 
   return (
     <form className="p-0 m-0" onSubmit={send}>
-      <div className="flex flex-col gap-10 text-graphql-otel-dark">
+      <div className="flex flex-col gap-5 text-graphql-otel-dark">
         <input
           className="bg-white p-3 w-80 h-12 placeholder-graphql-otel-dark"
           type="name"

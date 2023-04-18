@@ -1,4 +1,4 @@
-import { examplepatients, logo } from "../images";
+import { examplepatients, examplepatientsfail, logo } from "../images";
 import { Contact } from "./Contact";
 import { Container } from "./Container";
 
@@ -31,7 +31,7 @@ export function GettingStarted() {
               </p>
 
               <div className="hidden lg:block mt-40 w-full lg:w-5/6">
-                <img src={examplepatients} alt="code" />
+                <img src={examplepatientsfail} alt="code" />
               </div>
             </div>
 
@@ -65,6 +65,8 @@ export function GettingStarted() {
                 <Contact />
               </div>
             </div>
+
+            <hr className="h-1 mt-10 bg-graphql-otel-green border-0" />
           </div>
         </div>
       </Container>
