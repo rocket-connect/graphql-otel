@@ -9,7 +9,7 @@ export function GettingStarted() {
         <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col flex-1">
             <div>
-              <h2 className="text-4xl">Getting Started</h2>
+              <h2 className="text-3xl">Getting Started</h2>
               <p className="my-10 italic">
                 To get started follow to the{" "}
                 <a
@@ -44,7 +44,7 @@ export function GettingStarted() {
             <hr className="h-1 my-5 bg-graphql-otel-green border-0" />
 
             <div className="pt-10 text-right">
-              <h2 className="text-4xl">Need More Help?</h2>
+              <h2 className="text-3xl">Need More Help?</h2>
 
               <p className="mt-10 italic">
                 We provide specialized support for GraphQL API's.
