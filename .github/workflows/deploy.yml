@@ -1,0 +1,27 @@
+name: Publish Preview
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and deploy node app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd graphql-otel
+            git reset --hard
+            git checkout main
+            git fetch && git pull
+            cd graphql-otel.com
+            npm install
+            npm run build
+            NODE_ENV=production pm2 restart graphql-otel.com
