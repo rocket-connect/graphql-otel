@@ -30,7 +30,7 @@ export function GettingStarted() {
                 </ul>
               </p>
 
-              <div className="hidden lg:block mt-40 w-2/3">
+              <div className="hidden lg:block mt-40 w-full lg:w-5/6">
                 <img src={examplepatients} alt="code" />
               </div>
             </div>
@@ -61,7 +61,7 @@ export function GettingStarted() {
                 </a>
               </p>
 
-              <div className="mt-10 flex justify-center lg:justify-end p-3">
+              <div className="mt-10 flex justify-center md:justify-end mw-60">
                 <Contact />
               </div>
             </div>

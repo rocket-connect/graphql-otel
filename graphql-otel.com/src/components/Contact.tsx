@@ -59,7 +59,7 @@ export function Contact() {
     <form className="p-0 m-0" onSubmit={send}>
       <div className="flex flex-col gap-10 text-graphql-otel-dark">
         <input
-          className="bg-white p-3 w-96 h-12 placeholder-graphql-otel-dark"
+          className="bg-white p-3 w-80 h-12 placeholder-graphql-otel-dark"
           type="name"
           name="name"
           id="name"
@@ -69,7 +69,7 @@ export function Contact() {
         />
 
         <input
-          className="bg-white p-3 w-96 h-12 placeholder-graphql-otel-dark"
+          className="bg-white p-3 w-80 h-12 placeholder-graphql-otel-dark"
           type="email"
           name="email"
           placeholder="Email"
@@ -78,7 +78,7 @@ export function Contact() {
           required={true}
         />
         <textarea
-          className="bg-white p-3 w-96 h-32 placeholder-graphql-otel-dark"
+          className="bg-white p-3 w-80 h-32 placeholder-graphql-otel-dark"
           name="message"
           placeholder="I would like help tracing my GraphQL API."
           id="message"
