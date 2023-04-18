@@ -16,7 +16,7 @@ export function Intro() {
                 (location.href =
                   "https://github.com/rocket-connect/graphql-otel")
               }
-              className="bg-white text-graphql-otel-dark hover:text-white hover:bg-graphql-otel-green text-white font-bold py-2 px-4"
+              className="bg-white text-graphql-otel-dark hover:text-white hover:bg-graphql-otel-green font-bold py-2 px-4"
             >
               Get Started
             </button>
