@@ -1,5 +1,7 @@
 # GraphQL OTEL
 
+![Tests Workflow](https://github.com/rocket-connect/graphql-otel/blob/main/.github/workflows/push.yml/badge.svg)
+
 <p align="center">
   <img src="https://github.com/rocket-connect/graphql-otel/blob/main/graphql-otel.com/public/banner.png" width="100%" alt="logo"/>
 </p>
