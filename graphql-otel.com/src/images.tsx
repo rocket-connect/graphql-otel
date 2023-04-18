@@ -14,3 +14,5 @@ export { default as miticon } from "../public/mit-icon.svg";
 export { default as otelicon } from "../public/otel-icon.svg";
 // @ts-ignore
 export { default as typescripticon } from "../public/typescript-icon.svg";
+// @ts-ignore
+export { default as examplepatients } from "../public/example-patients.svg";

@@ -1,14 +1,13 @@
-import { logo } from "../images";
+import { examplepatients, logo } from "../images";
 import { Contact } from "./Contact";
 import { Container } from "./Container";
-import { Example } from "./Example";
 
 export function GettingStarted() {
   return (
     <div className="text-white py-20">
       <Container>
         <div className="flex justify-between">
-          <div className="flex flex-col">
+          <div className="flex flex-col flex-1">
             <div>
               <h2 className="text-4xl">Getting Started</h2>
               <p className="my-10 italic">
@@ -30,10 +29,10 @@ export function GettingStarted() {
                   </li>
                 </ul>
               </p>
-            </div>
 
-            <div className="mt-20">
-              <Example />
+              <div className="mt-40 w-2/3">
+                <img src={examplepatients} alt="code" />
+              </div>
             </div>
 
             <div className="mx-auto w-20 mt-auto">

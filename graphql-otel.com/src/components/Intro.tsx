@@ -1,5 +1,5 @@
+import { examplepatients } from "../images";
 import { Container } from "./Container";
-import { Example } from "./Example";
 
 export function Intro() {
   return (
@@ -7,7 +7,7 @@ export function Intro() {
       <Container>
         <div className="flex justify-between gap-40">
           <div className="text-white d-flex flex-col">
-            <h1 className="text-5xl my-10 bold">GraphQL OTEL</h1>
+            <h1 className="text-5xl my-5 bold">GraphQL OTEL</h1>
             <p className="mb-10 italic">
               Trace your GraphQL API with OpenTelemetry.
             </p>
@@ -22,7 +22,9 @@ export function Intro() {
             </button>
           </div>
 
-          <Example />
+          <div className="w-1/2">
+            <img src={examplepatients} alt="code" />
+          </div>
         </div>
         <hr className="h-1 mt-20 mb-5 w-4/5 mx-auto bg-graphql-otel-green border-0" />
       </Container>
