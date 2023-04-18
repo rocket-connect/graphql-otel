@@ -9,11 +9,11 @@ export function GettingStarted() {
         <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col flex-1">
             <div>
-              <h2 className="text-3xl">Getting Started</h2>
-              <p className="my-10 italic">
+              <h2 className="text-3xl font-bold">Getting Started</h2>
+              <p className="my-10">
                 To get started follow to the{" "}
                 <a
-                  className="italic underline decoration-graphql-otel-green underline-offset-8"
+                  className="underline decoration-graphql-otel-green underline-offset-8"
                   href="https://github.com/rocket-connect/graphql-otel#graphql-otel"
                 >
                   README file in the Github repo.
@@ -41,16 +41,16 @@ export function GettingStarted() {
           </div>
 
           <div>
-            <hr className="h-1 my-5 bg-graphql-otel-green border-0" />
+            <hr className="h-1 mt-5 bg-graphql-otel-green border-0" />
 
             <div className="pt-10 text-right">
-              <h2 className="text-3xl">Need More Help?</h2>
+              <h2 className="text-3xl font-bold">Need More Help?</h2>
 
-              <p className="mt-10 italic">
+              <p className="mt-10">
                 We provide specialized support for GraphQL API's.
               </p>
 
-              <p className="mt-5 italic">Contact us to setup a call.</p>
+              <p className="mt-5">Contact us to setup a call.</p>
 
               <p className="mt-5">
                 <a

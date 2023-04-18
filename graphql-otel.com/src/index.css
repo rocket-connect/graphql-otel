@@ -28,5 +28,5 @@
 }
 
 .gradient-background {
-  background: radial-gradient(ellipse at top left, #231f20 0%, #090a0f 100%);
+  background: radial-gradient(ellipse at center, #231f20 0%, #090a0f 100%);
 }
