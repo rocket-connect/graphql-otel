@@ -1,7 +1,7 @@
 # GraphQL OTEL
 
 <p align="center">
-  <img src="https://github.com/rocket-connect/graphql-otel/blob/main/graphql-otel.com/public/banner.png" width="50%" alt="logo"/>
+  <img src="https://github.com/rocket-connect/graphql-otel/blob/main/graphql-otel.com/public/banner.png" width="100%" alt="logo"/>
 </p>
 
 Opentelemetry GraphQL Schema Directives.
