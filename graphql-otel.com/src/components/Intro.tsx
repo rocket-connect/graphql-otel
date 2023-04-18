@@ -22,7 +22,7 @@ export function Intro() {
             </button>
           </div>
 
-          <div className="w-3/6">
+          <div className="lg:w-3/6">
             <img src={examplepatients} alt="code" />
           </div>
         </div>
