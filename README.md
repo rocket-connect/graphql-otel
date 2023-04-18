@@ -1,6 +1,6 @@
 # GraphQL OTEL
 
-![Tests Workflow](https://github.com/rocket-connect/graphql-otel/blob/main/.github/workflows/push.yml/badge.svg)
+[![Test](https://github.com/rocket-connect/graphql-otel/actions/workflows/push.yml/badge.svg)](https://github.com/rocket-connect/graphql-otel/actions/workflows/push.yml) [![npm version](https://badge.fury.io/js/graphql-otel.svg)](https://badge.fury.io/js/graphql-otel)
 
 <p align="center">
   <img src="https://github.com/rocket-connect/graphql-otel/blob/main/graphql-otel.com/public/banner.png" width="100%" alt="logo"/>
