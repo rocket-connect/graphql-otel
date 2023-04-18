@@ -3,8 +3,11 @@
 <p align="center">
   <img src="https://github.com/rocket-connect/graphql-otel/blob/main/graphql-otel.com/public/banner.png" width="100%" alt="logo"/>
 </p>
+  Opentelemetry GraphQL Schema Directives.
 
-Opentelemetry GraphQL Schema Directives.
+- [https://graphql-otel.com](https://graphql-otel.com)
+- [https://github.com/rocket-connect/graphql-otel](https://github.com/rocket-connect/graphql-otel)
+- [https://www.npmjs.com/package/graphql-otel](https://www.npmjs.com/package/graphql-otel)
 
 ## TL;DR
 
