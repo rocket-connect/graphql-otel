@@ -7,10 +7,10 @@ export function Intro() {
       <Container>
         <div className="flex flex-col lg:flex-row justify-between gap-5">
           <div className="text-white d-flex flex-col">
-            <h1 className="font-bold text-3xl lg:text-4xl mb-5 bold">
+            <h1 className="font-bold text-3xl lg:text-4xl mb-10 bold">
               GraphQL OTEL
             </h1>
-            <p className="mb-5 italic">
+            <p className="mb-10 italic">
               Trace your GraphQL API with OpenTelemetry.
             </p>
             <button
@@ -24,11 +24,11 @@ export function Intro() {
             </button>
           </div>
 
-          <div className="w-80 mx-auto lg:mx-0 lg:w-3/6 mt-auto">
+          <div className="w-80 mx-auto mt-10 md:mt-auto lg:mx-0 lg:w-3/6">
             <img src={examplepatients} alt="code" />
           </div>
         </div>
-        <hr className="h-1 mt-5 w-4/5 mx-auto bg-graphql-otel-green border-0" />
+        <hr className="h-1 mt-10 w-4/5 mx-auto bg-graphql-otel-green border-0" />
       </Container>
     </div>
   );
