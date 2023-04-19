@@ -1,10 +1,10 @@
-import { examplepatients, examplepatientsfail, logo } from "../images";
+import { examplepatientsfail, logo } from "../images";
 import { Contact } from "./Contact";
 import { Container } from "./Container";
 
 export function GettingStarted() {
   return (
-    <div className="text-white py-20">
+    <div className="text-white py-10">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col flex-1">
