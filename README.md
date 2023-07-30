@@ -131,13 +131,13 @@ Quickstart boilerplate.
 {
   "name": "playground",
   "devDependencies": {
-    "@graphql-tools/schema": "^9.0.4",
+    "@graphql-tools/schema": "^10.0.0",
     "@graphql-yoga/node": "^2.13.13",
-    "@opentelemetry/context-async-hooks": "^1.7.0",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.33.0",
-    "@opentelemetry/resources": "^1.7.0",
-    "@opentelemetry/sdk-trace-base": "^1.7.0",
-    "@opentelemetry/api": "^1.2.0"
+    "@opentelemetry/context-async-hooks": "^1.15.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.41.1",
+    "@opentelemetry/resources": "^1.15.1",
+    "@opentelemetry/sdk-trace-base": "^1.15.1",
+    "@opentelemetry/api": "^1.4.1"
   }
 }
 ```
