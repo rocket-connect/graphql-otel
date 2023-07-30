@@ -441,4 +441,58 @@ describe("@trace directive", () => {
 
     expect(context[excludeContext]).toBeUndefined();
   });
+
+  test("should append graphql result to trace attribute", async () => {
+    const randomString = Math.random().toString(36).substring(7);
+
+    const typeDefs = `
+      type Query {
+        randomString: String @trace
+      }
+    `;
+
+    const resolvers = {
+      Query: {
+        randomString: () => randomString,
+      },
+    };
+
+    const trace = traceDirective();
+
+    let schema = makeExecutableSchema({
+      typeDefs: [typeDefs, trace.typeDefs],
+      resolvers,
+    });
+
+    schema = trace.transformer(schema);
+
+    const query = `
+      query {
+        randomString
+      }
+    `;
+
+    const { errors } = await graphql({
+      schema,
+      source: query,
+      contextValue: {
+        GraphQLOTELContext: new GraphQLOTELContext({
+          includeResult: true,
+        }),
+      },
+    });
+
+    expect(errors).toBeUndefined();
+
+    const spans = inMemorySpanExporter.getFinishedSpans();
+    const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
+    const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
+
+    expect(spanTree.span.name).toEqual("Query:randomString");
+    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+
+    const result = spanTree.span.attributes.result;
+
+    expect(result).toEqual(randomString);
+  });
 });

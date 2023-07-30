@@ -93,6 +93,18 @@ export function traceDirective(directiveName = "trace") {
 
                   const result = await resolve(source, args, context, info);
 
+                  if (internalCtx.includeResult) {
+                    if (
+                      typeof result === "number" ||
+                      typeof result === "string" ||
+                      typeof result === "boolean"
+                    ) {
+                      span.setAttribute("result", result);
+                    } else if (typeof result === "object") {
+                      span.setAttribute("result", safeJSON(result || {}));
+                    }
+                  }
+
                   context.parentSpan = span;
 
                   return result;
