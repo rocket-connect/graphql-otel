@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
+      - run: cp ./README.md ./package/README.md
       - run: cd ./package && npm ci
       - run: cd ./package && npm run build
       - run: cd ./package && npm publish
