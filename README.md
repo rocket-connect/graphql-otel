@@ -86,6 +86,11 @@ Then you can go to http://localhost:16686/ to open the UI.
 
 Quickstart boilerplate.
 
+<details closed>
+<summary>setup-otel.ts</summary>
+
+<br>
+
 ```ts
 import * as api from "@opentelemetry/api";
 import { AsyncHooksContextManager } from "@opentelemetry/context-async-hooks";
