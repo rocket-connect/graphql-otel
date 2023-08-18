@@ -90,32 +90,6 @@ Then you can go to http://localhost:16686/ to open the UI.
 
 Quickstart boilerplate.
 
-<details closed>
-<summary>package.json</summary>
-<br>
-
-```json
-{
-  "name": "playground",
-  "devDependencies": {
-    "@graphql-tools/schema": "^10.0.0",
-    "@graphql-yoga/node": "^2.13.13",
-    "@opentelemetry/context-async-hooks": "^1.15.1",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.41.1",
-    "@opentelemetry/resources": "^1.15.1",
-    "@opentelemetry/sdk-trace-base": "^1.15.1",
-    "@opentelemetry/api": "^1.4.1"
-  }
-}
-```
-
-</details>
-
-<details closed>
-<summary>setup-otel.ts</summary>
-
-<br>
-
 ```ts
 import * as api from "@opentelemetry/api";
 import { AsyncHooksContextManager } from "@opentelemetry/context-async-hooks";
@@ -186,7 +160,6 @@ const typeDefs = `
 const resolvers = {
   Query: {
     users: async () => {
-      console.log("here");
       await sleep(200);
       return [{ name: "Dan", age: 23 }];
     },
