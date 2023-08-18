@@ -11,6 +11,7 @@ import { traceDirective } from "../src";
 import { graphql, parse, print } from "graphql";
 import { GraphQLOTELContext } from "../src/context";
 import { SpanStatusCode } from "@opentelemetry/api";
+import { AttributeName } from "../src/trace-directive";
 
 const util = require("util");
 const sleep = util.promisify(setTimeout);
@@ -181,21 +182,29 @@ describe("@trace directive", () => {
     const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
     const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
 
-    expect(spanTree.span.name).toEqual("Query:users");
-    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+    expect(spanTree.span.name).toEqual("query users");
+    expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
+      print(parse(query))
+    );
+    expect(spanTree.span.attributes[AttributeName.OPERATION_NAME]).toMatch(
+      "users"
+    );
+    expect(spanTree.span.attributes[AttributeName.OPERATION_TYPE]).toMatch(
+      "query"
+    );
 
     const balanceSpan = spanTree.children.find(
-      (child) => child.span.name === "User:balance"
+      (child) => child.span.name === "User balance"
     );
     expect(balanceSpan).toBeDefined();
 
     const postsSpan = spanTree.children.find(
-      (child) => child.span.name === "User:posts"
+      (child) => child.span.name === "User posts"
     );
     expect(postsSpan).toBeDefined();
 
     const commentsSnap = postsSpan!.children.find(
-      (child) => child.span.name === "Post:comments"
+      (child) => child.span.name === "Post comments"
     );
     expect(commentsSnap).toBeDefined();
 
@@ -282,11 +291,13 @@ describe("@trace directive", () => {
     const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
     const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
 
-    expect(spanTree.span.name).toEqual("Mutation:createUser");
-    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+    expect(spanTree.span.name).toEqual("mutation createUser");
+    expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
+      print(parse(query))
+    );
 
     const postsSpan = spanTree.children.find(
-      (child) => child.span.name === "User:posts"
+      (child) => child.span.name === "User posts"
     );
     expect(postsSpan).toBeDefined();
   });
@@ -345,8 +356,10 @@ describe("@trace directive", () => {
     const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
     const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
 
-    expect(spanTree.span.name).toEqual("Query:users");
-    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+    expect(spanTree.span.name).toEqual("query users");
+    expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
+      print(parse(query))
+    );
 
     const events = spanTree.span.events;
 
@@ -426,15 +439,24 @@ describe("@trace directive", () => {
     const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
     const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
 
-    expect(spanTree.span.name).toEqual("Query:users");
-    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+    expect(spanTree.span.name).toEqual("query users");
+    expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
+      print(parse(query))
+    );
+    expect(
+      spanTree.span.attributes[AttributeName.OPERATION_RETURN_TYPE]
+    ).toMatch("[User]");
 
-    const variables = JSON.parse(spanTree.span.attributes.variables as string);
+    const variables = JSON.parse(
+      spanTree.span.attributes[AttributeName.OPERATION_ARGS] as string
+    );
     expect(variables).toMatchObject({
       name: randomName,
     });
 
-    const context = JSON.parse(spanTree.span.attributes.context as string);
+    const context = JSON.parse(
+      spanTree.span.attributes[AttributeName.OPERATION_CONTEXT] as string
+    );
     expect(context).toMatchObject({
       name: randomName,
     });
@@ -467,7 +489,7 @@ describe("@trace directive", () => {
     schema = trace.transformer(schema);
 
     const query = `
-      query {
+      query getRandomString {
         randomString
       }
     `;
@@ -488,10 +510,12 @@ describe("@trace directive", () => {
     const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
     const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
 
-    expect(spanTree.span.name).toEqual("Query:randomString");
-    expect(spanTree.span.attributes.query).toMatch(print(parse(query)));
+    expect(spanTree.span.name).toEqual("query getRandomString");
+    expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
+      print(parse(query))
+    );
 
-    const result = spanTree.span.attributes.result;
+    const result = spanTree.span.attributes[AttributeName.OPERATION_RESULT];
 
     expect(result).toEqual(randomString);
   });
