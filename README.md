@@ -6,48 +6,27 @@
   <img src="https://github.com/rocket-connect/graphql-otel/blob/main/graphql-otel.com/public/banner.png" width="100%" alt="logo"/>
 </p>
 
-Opentelemetry GraphQL Schema Directives.
+Opentelemetry GraphQL Schema Directive.
 
 - [https://graphql-otel.com](https://graphql-otel.com)
 - [https://github.com/rocket-connect/graphql-otel](https://github.com/rocket-connect/graphql-otel)
 - [https://www.npmjs.com/package/graphql-otel](https://www.npmjs.com/package/graphql-otel)
 
-## TL;DR
+## How it works
 
-What if you could add a trace directive on a GraphQL query?
-
-```graphql
-type Query {
-  users: [User] @trace
-}
-```
-
-Then, be able to add child span's on complex nested resolvers?
+Place the `@trace` directive on any fields you wish to trace.
 
 ```graphql
-type User {
-  name: String
-  age: Int
-  balance: Int @trace # Some Complex Aggregation
-  posts: [Post]
-}
-```
-
-Not forgetting about thoes nasty joins...
-
-```diff
 type User {
   name: String
   age: Int
   balance: Int @trace
--  posts: [Post]
-+  posts: [Post] @trace
+  posts: [Post] @trace
 }
 
 type Post {
   title: String
--  comments: [Comment]
-+  comments: [Comment] @trace
+  comments: [Comment] @trace
 }
 
 type Comment {
@@ -55,7 +34,7 @@ type Comment {
 }
 ```
 
-You could then issue this query:
+Given the query:
 
 ```graphql
 query {
@@ -79,18 +58,6 @@ Outputting the following traces:
 ![Trace Graph](https://user-images.githubusercontent.com/35999252/195424763-c31b76a7-c58a-42f4-bd2b-c60406b8d1c6.png)
 
 ## Getting Started
-
-### Installing
-
-```
-$ npm install graphql-otel
-```
-
-#### Importing
-
-```js
-import { traceDirective, GraphQLOTELContext } from "graphql-otel";
-```
 
 ### Running Jaeger UI
 
@@ -220,31 +187,23 @@ const resolvers = {
   Query: {
     users: async () => {
       console.log("here");
-      // Simulate time
       await sleep(200);
-
       return [{ name: "Dan", age: 23 }];
     },
   },
   User: {
     balance: async () => {
-      // Simulate complex lookup
       await sleep(100);
-
       return 100;
     },
     posts: async () => {
-      // Simulate a join
       await sleep(500);
-
       return [{ title: "Beer Is Cool" }];
     },
   },
   Post: {
     comments: async () => {
-      // Simulate a join
       await sleep(300);
-
       return [
         {
           content: "I also think beer is cool",
@@ -277,11 +236,9 @@ server
   .catch(console.error);
 ```
 
-### Watch out for
+### Context Value
 
-#### Context Value
-
-You must inject the `GraphQLOTELContext` instance inside your GraphQL request context. This class is used internally to keep track of parent and children spans.
+Inject the `GraphQLOTELContext` instance inside your GraphQL request context.
 
 ```js
 import { GraphQLOTELContext } from "graphql-otel";
