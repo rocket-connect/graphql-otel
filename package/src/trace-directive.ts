@@ -10,9 +10,12 @@ import safeJSON from "safe-json-stringify";
 export enum AttributeName {
   OPERATION_NAME = "graphql.operation.name",
   OPERATION_TYPE = "graphql.operation.type",
+
   DOCUMENT = "graphql.document",
-  ARGS = "graphql.operation.args", // Non-Spec attribute
-  CONTEXT = "graphql.operation.context", // Non-Spec attribute
+  OPERATION_ARGS = "graphql.operation.args", // Non-Spec attribute
+  OPERATION_CONTEXT = "graphql.operation.context", // Non-Spec attribute
+  OPERATION_RESULT = "graphql.operation.result", // Non-Spec attribute
+  OPERATION_RETURN_TYPE = "graphql.operation.returnType", // Non-Spec attribute
 }
 
 export function traceDirective(directiveName = "trace") {
@@ -89,12 +92,15 @@ export function traceDirective(directiveName = "trace") {
                     [AttributeName.OPERATION_TYPE]:
                       info.operation.operation.toLowerCase(),
                     [AttributeName.DOCUMENT]: print(info.operation),
+                    [AttributeName.OPERATION_RETURN_TYPE]:
+                      info.returnType.toString(),
                     ...(internalCtx.includeVariables
-                      ? { [AttributeName.ARGS]: safeJSON(args) }
+                      ? { [AttributeName.OPERATION_ARGS]: safeJSON(args) }
                       : {}),
                     ...(internalCtx.includeContext
                       ? {
-                          [AttributeName.CONTEXT]: safeJSON(attributeContext),
+                          [AttributeName.OPERATION_CONTEXT]:
+                            safeJSON(attributeContext),
                         }
                       : {}),
                   },
@@ -114,9 +120,12 @@ export function traceDirective(directiveName = "trace") {
                       typeof result === "string" ||
                       typeof result === "boolean"
                     ) {
-                      span.setAttribute("result", result);
+                      span.setAttribute(AttributeName.OPERATION_RESULT, result);
                     } else if (typeof result === "object") {
-                      span.setAttribute("result", safeJSON(result || {}));
+                      span.setAttribute(
+                        AttributeName.OPERATION_RESULT,
+                        safeJSON(result || {})
+                      );
                     }
                   }
 

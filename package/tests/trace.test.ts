@@ -443,16 +443,19 @@ describe("@trace directive", () => {
     expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
       print(parse(query))
     );
+    expect(
+      spanTree.span.attributes[AttributeName.OPERATION_RETURN_TYPE]
+    ).toMatch("[User]");
 
     const variables = JSON.parse(
-      spanTree.span.attributes[AttributeName.ARGS] as string
+      spanTree.span.attributes[AttributeName.OPERATION_ARGS] as string
     );
     expect(variables).toMatchObject({
       name: randomName,
     });
 
     const context = JSON.parse(
-      spanTree.span.attributes[AttributeName.CONTEXT] as string
+      spanTree.span.attributes[AttributeName.OPERATION_CONTEXT] as string
     );
     expect(context).toMatchObject({
       name: randomName,
@@ -512,7 +515,7 @@ describe("@trace directive", () => {
       print(parse(query))
     );
 
-    const result = spanTree.span.attributes.result;
+    const result = spanTree.span.attributes[AttributeName.OPERATION_RESULT];
 
     expect(result).toEqual(randomString);
   });
