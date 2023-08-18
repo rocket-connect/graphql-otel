@@ -51,8 +51,6 @@ Outputting the following traces:
 
 ![Traces](https://user-images.githubusercontent.com/35999252/195374980-20c94be1-2836-4460-91b3-e4c1f0f2acbb.png)
 
-![Trace Graph](https://user-images.githubusercontent.com/35999252/195424763-c31b76a7-c58a-42f4-bd2b-c60406b8d1c6.png)
-
 ## Getting Started
 
 ### Running Jaeger UI
