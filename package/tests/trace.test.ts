@@ -8,12 +8,17 @@ import {
 import crypto from "crypto";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { traceDirective } from "../src";
-import { graphql, lexicographicSortSchema, parse, print } from "graphql";
+import {
+  graphql,
+  lexicographicSortSchema,
+  parse,
+  print,
+  printSchema,
+} from "graphql";
 import { GraphQLOTELContext } from "../src/context";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { AttributeName } from "../src/trace-directive";
 import { describe, beforeEach, test, expect } from "@jest/globals";
-import { printSchemaWithDirectives } from "@graphql-tools/utils";
 
 const util = require("util");
 const sleep = util.promisify(setTimeout);
@@ -541,11 +546,11 @@ describe("@trace directive", () => {
 
     const typeDefs = `
       type User {
-        name: String 
+        name: String @trace
       }
 
       type Query {
-        user: User
+        user: User @trace
       }
     `;
 
@@ -596,7 +601,7 @@ describe("@trace directive", () => {
     const result = spanTree.span.attributes[AttributeName.SCHEMA_HASH];
 
     const sorted = lexicographicSortSchema(schema);
-    const printed = printSchemaWithDirectives(sorted);
+    const printed = printSchema(sorted);
 
     const hash = crypto.createHash("sha256");
     hash.update(printed);
