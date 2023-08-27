@@ -1,18 +1,19 @@
+import { otelSetup, buildSpanTree } from "./utils";
+const inMemorySpanExporter = otelSetup(true) as InMemorySpanExporter;
+
 import {
   InMemorySpanExporter,
   ReadableSpan,
 } from "@opentelemetry/sdk-trace-base";
-
-import { otelSetup, buildSpanTree } from "./utils";
-const inMemorySpanExporter = otelSetup(true) as InMemorySpanExporter;
-
+import crypto from "crypto";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { traceDirective } from "../src";
-import { graphql, parse, print } from "graphql";
+import { graphql, lexicographicSortSchema, parse, print } from "graphql";
 import { GraphQLOTELContext } from "../src/context";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { AttributeName } from "../src/trace-directive";
 import { describe, beforeEach, test, expect } from "@jest/globals";
+import { printSchemaWithDirectives } from "@graphql-tools/utils";
 
 const util = require("util");
 const sleep = util.promisify(setTimeout);
@@ -533,5 +534,73 @@ describe("@trace directive", () => {
     const nameResult =
       nameSpan!.span.attributes[AttributeName.OPERATION_RESULT];
     expect(nameResult).toEqual(randomString);
+  });
+
+  test("should append graphql schema hash to trace attribute", async () => {
+    const randomString = Math.random().toString(36).substring(7);
+
+    const typeDefs = `
+      type User {
+        name: String 
+      }
+
+      type Query {
+        user: User @trace
+      }
+    `;
+
+    const resolvers = {
+      Query: {
+        user: () => ({ name: randomString }),
+      },
+    };
+
+    const trace = traceDirective();
+
+    let schema = makeExecutableSchema({
+      typeDefs: [typeDefs, trace.typeDefs],
+      resolvers,
+    });
+
+    schema = trace.transformer(schema);
+
+    const query = `
+      query {
+        user {
+          name
+        }
+      }
+    `;
+
+    const { errors } = await graphql({
+      schema,
+      source: query,
+      contextValue: {
+        GraphQLOTELContext: new GraphQLOTELContext({
+          includeResult: true,
+        }),
+      },
+    });
+
+    expect(errors).toBeUndefined();
+
+    const spans = inMemorySpanExporter.getFinishedSpans();
+    const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
+    const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
+
+    expect(spanTree.span.name).toEqual("query user");
+    expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
+      print(parse(query))
+    );
+
+    const result = spanTree.span.attributes[AttributeName.SCHEMA_HASH];
+
+    const sorted = lexicographicSortSchema(schema);
+    const printed = printSchemaWithDirectives(sorted);
+
+    const hash = crypto.createHash("sha256");
+    hash.update(printed);
+
+    expect(result).toEqual(hash.digest("hex"));
   });
 });

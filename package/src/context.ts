@@ -6,6 +6,9 @@ import {
 } from "@opentelemetry/api";
 import { Span } from "@opentelemetry/sdk-trace-base";
 import { runInSpan } from "./run-in-span";
+import { GraphQLSchema, lexicographicSortSchema } from "graphql";
+import { printSchemaWithDirectives } from "@graphql-tools/utils";
+import crypto from "crypto";
 
 export interface GraphQLOTELContextOptions {
   /* If true will add the context in the span attributes */
@@ -26,6 +29,8 @@ export class GraphQLOTELContext {
   public includeVariables?: boolean;
   public includeResult?: boolean;
   public excludeKeysFromContext?: string[];
+  public schema?: GraphQLSchema;
+  public schemaHash?: string;
 
   constructor(options: GraphQLOTELContextOptions = {}) {
     this.includeContext = options.includeContext;
@@ -49,6 +54,17 @@ export class GraphQLOTELContext {
 
   getRootSpan(): Span | undefined {
     return this.rootSpan;
+  }
+
+  public setSchema(schema: GraphQLSchema) {
+    const sorted = lexicographicSortSchema(schema);
+    const printed = printSchemaWithDirectives(sorted);
+
+    const hash = crypto.createHash("sha256");
+    hash.update(printed);
+
+    this.schemaHash = hash.digest("hex");
+    this.schema = schema;
   }
 
   runInChildSpan(input: {

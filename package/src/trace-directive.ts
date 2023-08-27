@@ -12,6 +12,7 @@ export enum AttributeName {
   OPERATION_TYPE = "graphql.operation.type",
 
   DOCUMENT = "graphql.document",
+  SCHEMA_HASH = "graphql.schema.hash", // Non-Spec attribute
   OPERATION_ARGS = "graphql.operation.args", // Non-Spec attribute
   OPERATION_CONTEXT = "graphql.operation.context", // Non-Spec attribute
   OPERATION_RESULT = "graphql.operation.result", // Non-Spec attribute
@@ -44,6 +45,10 @@ export function traceDirective(directiveName = "trace") {
 
               if (!internalCtx) {
                 throw new Error("contextValue.GraphQLOTELContext missing");
+              }
+
+              if (!internalCtx.schema) {
+                internalCtx.setSchema(schema);
               }
 
               const parentContext = internalCtx
@@ -92,6 +97,7 @@ export function traceDirective(directiveName = "trace") {
                     [AttributeName.OPERATION_TYPE]:
                       info.operation.operation.toLowerCase(),
                     [AttributeName.DOCUMENT]: print(info.operation),
+                    [AttributeName.SCHEMA_HASH]: internalCtx.schemaHash,
                     [AttributeName.OPERATION_RETURN_TYPE]:
                       info.returnType.toString(),
                     ...(internalCtx.includeVariables
