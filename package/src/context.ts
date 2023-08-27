@@ -6,8 +6,7 @@ import {
 } from "@opentelemetry/api";
 import { Span } from "@opentelemetry/sdk-trace-base";
 import { runInSpan } from "./run-in-span";
-import { GraphQLSchema, lexicographicSortSchema } from "graphql";
-import { printSchemaWithDirectives } from "@graphql-tools/utils";
+import { GraphQLSchema, lexicographicSortSchema, printSchema } from "graphql";
 import crypto from "crypto";
 
 export interface GraphQLOTELContextOptions {
@@ -58,7 +57,7 @@ export class GraphQLOTELContext {
 
   public setSchema(schema: GraphQLSchema) {
     const sorted = lexicographicSortSchema(schema);
-    const printed = printSchemaWithDirectives(sorted);
+    const printed = printSchema(sorted);
 
     const hash = crypto.createHash("sha256");
     hash.update(printed);

@@ -545,7 +545,7 @@ describe("@trace directive", () => {
       }
 
       type Query {
-        user: User @trace
+        user: User
       }
     `;
 
