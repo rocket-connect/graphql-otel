@@ -1,4 +1,5 @@
 import * as pkg from "../src";
+import { describe, test, expect } from "@jest/globals";
 
 describe("graphql-otel", () => {
   test("should export traceDirective", () => {
