@@ -38,6 +38,10 @@ export async function runInSpan<R>(
       parentContext.spanId
     );
 
+    Object.entries(options.attributes || {}).forEach(([key, value]) => {
+      span.setAttribute(key, value);
+    });
+
     try {
       return await cb(span);
     } catch (error) {

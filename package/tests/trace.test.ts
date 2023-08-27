@@ -469,14 +469,18 @@ describe("@trace directive", () => {
     const randomString = Math.random().toString(36).substring(7);
 
     const typeDefs = `
+      type User {
+        name: String @trace
+      }
+
       type Query {
-        randomString: String @trace
+        user: User @trace
       }
     `;
 
     const resolvers = {
       Query: {
-        randomString: () => randomString,
+        user: () => ({ name: randomString }),
       },
     };
 
@@ -490,8 +494,10 @@ describe("@trace directive", () => {
     schema = trace.transformer(schema);
 
     const query = `
-      query getRandomString {
-        randomString
+      query {
+        user {
+          name
+        }
       }
     `;
 
@@ -511,13 +517,21 @@ describe("@trace directive", () => {
     const rootSpan = spans.find((span) => !span.parentSpanId) as ReadableSpan;
     const spanTree = buildSpanTree({ span: rootSpan, children: [] }, spans);
 
-    expect(spanTree.span.name).toEqual("query getRandomString");
+    expect(spanTree.span.name).toEqual("query user");
     expect(spanTree.span.attributes[AttributeName.DOCUMENT]).toMatch(
       print(parse(query))
     );
 
     const result = spanTree.span.attributes[AttributeName.OPERATION_RESULT];
+    expect(result).toEqual(JSON.stringify({ name: randomString }));
 
-    expect(result).toEqual(randomString);
+    const nameSpan = spanTree.children.find(
+      (child) => child.span.name === "User name"
+    );
+    expect(nameSpan).toBeDefined();
+
+    const nameResult =
+      nameSpan!.span.attributes[AttributeName.OPERATION_RESULT];
+    expect(nameResult).toEqual(randomString);
   });
 });
