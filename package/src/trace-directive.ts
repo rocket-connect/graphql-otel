@@ -4,7 +4,7 @@ import { GraphQLSchema, defaultFieldResolver, print } from "graphql";
 import { GraphQLOTELContext } from "./context";
 import { Span } from "@opentelemetry/sdk-trace-base";
 import { runInSpan } from "./run-in-span";
-import safeJSON from "safe-json-stringify";
+import { safeJson } from "./utils";
 
 // Matching spec https://opentelemetry.io/docs/specs/otel/trace/semantic_conventions/instrumentation/graphql/
 export enum AttributeName {
@@ -86,6 +86,8 @@ export function traceDirective(directiveName = "trace") {
                 });
               }
 
+              const operationArgs = safeJson(args || {});
+
               const result = await runInSpan(
                 {
                   name,
@@ -101,12 +103,12 @@ export function traceDirective(directiveName = "trace") {
                     [AttributeName.OPERATION_RETURN_TYPE]:
                       info.returnType.toString(),
                     ...(internalCtx.includeVariables
-                      ? { [AttributeName.OPERATION_ARGS]: safeJSON(args) }
+                      ? { [AttributeName.OPERATION_ARGS]: operationArgs }
                       : {}),
                     ...(internalCtx.includeContext
                       ? {
                           [AttributeName.OPERATION_CONTEXT]:
-                            safeJSON(attributeContext),
+                            safeJson(attributeContext),
                         }
                       : {}),
                   },
@@ -130,7 +132,7 @@ export function traceDirective(directiveName = "trace") {
                     } else if (typeof result === "object") {
                       span.setAttribute(
                         AttributeName.OPERATION_RESULT,
-                        safeJSON(result || {})
+                        safeJson(result || {})
                       );
                     }
                   }

@@ -477,6 +477,7 @@ describe("@trace directive", () => {
     const typeDefs = `
       type User {
         name: String @trace
+        age: String
       }
 
       type Query {
@@ -486,7 +487,7 @@ describe("@trace directive", () => {
 
     const resolvers = {
       Query: {
-        user: () => ({ name: randomString }),
+        user: () => ({ name: randomString, age: BigInt(23) }),
       },
     };
 
@@ -529,7 +530,7 @@ describe("@trace directive", () => {
     );
 
     const result = spanTree.span.attributes[AttributeName.OPERATION_RESULT];
-    expect(result).toEqual(JSON.stringify({ name: randomString }));
+    expect(result).toEqual(JSON.stringify({ name: randomString, age: "23" }));
 
     const nameSpan = spanTree.children.find(
       (child) => child.span.name === "User name"
