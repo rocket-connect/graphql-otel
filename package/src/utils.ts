@@ -13,14 +13,15 @@ export const excludedKeys = [
   "_result",
 ];
 
-export function safeJson(object: any) {
-  const safeJSON = JSON.stringify(object || {}, (key, value) => {
+export function safeJson(object: any = {}) {
+  const obj = { ...object };
+  excludedKeys.forEach((key) => {
+    delete obj[key];
+  });
+
+  return safeJsonStringify(obj, (key, value) => {
     if (typeof value === "bigint") {
       return value.toString();
-    }
-
-    if (excludedKeys.includes(key)) {
-      return undefined;
     }
 
     if (typeof value === "function") {
@@ -29,6 +30,4 @@ export function safeJson(object: any) {
 
     return value;
   });
-
-  return safeJsonStringify(JSON.parse(safeJSON));
 }
