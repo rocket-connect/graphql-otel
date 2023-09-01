@@ -107,7 +107,7 @@ export function traceDirective(directiveName = "trace") {
                     ...(Boolean(internalCtx.includeVariables && isRoot)
                       ? { [AttributeName.OPERATION_ARGS]: operationArgs }
                       : {}),
-                    ...(internalCtx.includeContext
+                    ...(internalCtx.includeContext && isRoot
                       ? {
                           [AttributeName.OPERATION_CONTEXT]:
                             safeJson(attributeContext),
