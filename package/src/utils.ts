@@ -4,8 +4,16 @@ export function safeJson(object: any) {
   return safeJsonStringify(object || {}, (key, value) => {
     if (typeof value === "bigint") {
       return value.toString();
-    } else {
-      return value;
     }
+
+    if (["req", "_req", "request", "_request"].includes(key)) {
+      return undefined;
+    }
+
+    if (typeof value === "function") {
+      return "Function";
+    }
+
+    return value;
   });
 }

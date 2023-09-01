@@ -437,6 +437,13 @@ describe("@trace directive", () => {
           includeVariables: true,
           excludeKeysFromContext: [excludeContext],
         }),
+        req: {
+          url: "http://localhost:3000/graphql",
+        },
+        _req: {
+          url: "http://localhost:3000/graphql",
+        },
+        someFunction: () => {},
       },
     });
 
@@ -466,6 +473,7 @@ describe("@trace directive", () => {
     );
     expect(context).toMatchObject({
       name: randomName,
+      someFunction: "Function",
     });
 
     expect(context[excludeContext]).toBeUndefined();
