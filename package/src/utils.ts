@@ -9,10 +9,12 @@ export const excludedKeys = [
   "_res",
   "params",
   "_params",
+  "result",
+  "_result",
 ];
 
 export function safeJson(object: any) {
-  return safeJsonStringify(object || {}, (key, value) => {
+  const safeJSON = JSON.stringify(object || {}, (key, value) => {
     if (typeof value === "bigint") {
       return value.toString();
     }
@@ -27,4 +29,6 @@ export function safeJson(object: any) {
 
     return value;
   });
+
+  return safeJsonStringify(JSON.parse(safeJSON));
 }
