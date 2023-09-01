@@ -19,6 +19,8 @@ import { GraphQLOTELContext } from "../src/context";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { AttributeName } from "../src/trace-directive";
 import { describe, beforeEach, test, expect } from "@jest/globals";
+import { excludedKeys } from "../src/utils";
+import exp from "constants";
 
 const util = require("util");
 const sleep = util.promisify(setTimeout);
@@ -443,6 +445,24 @@ describe("@trace directive", () => {
         _req: {
           url: "http://localhost:3000/graphql",
         },
+        request: {
+          url: "http://localhost:3000/graphql",
+        },
+        _request: {
+          url: "http://localhost:3000/graphql",
+        },
+        res: {
+          statusCode: 200,
+        },
+        _res: {
+          statusCode: 200,
+        },
+        params: {
+          statusCode: 200,
+        },
+        _params: {
+          statusCode: 200,
+        },
         someFunction: () => {},
       },
     });
@@ -471,7 +491,7 @@ describe("@trace directive", () => {
     const context = JSON.parse(
       spanTree.span.attributes[AttributeName.OPERATION_CONTEXT] as string
     );
-    expect(context).toMatchObject({
+    expect(context).toEqual({
       name: randomName,
       someFunction: "Function",
     });
