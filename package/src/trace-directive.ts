@@ -98,11 +98,13 @@ export function traceDirective(directiveName = "trace") {
                     [AttributeName.OPERATION_NAME]: info.fieldName,
                     [AttributeName.OPERATION_TYPE]:
                       info.operation.operation.toLowerCase(),
-                    [AttributeName.DOCUMENT]: print(info.operation),
+                    ...(isRoot
+                      ? { [AttributeName.DOCUMENT]: print(info.operation) }
+                      : {}),
                     [AttributeName.SCHEMA_HASH]: internalCtx.schemaHash,
                     [AttributeName.OPERATION_RETURN_TYPE]:
                       info.returnType.toString(),
-                    ...(internalCtx.includeVariables
+                    ...(Boolean(internalCtx.includeVariables && isRoot)
                       ? { [AttributeName.OPERATION_ARGS]: operationArgs }
                       : {}),
                     ...(internalCtx.includeContext
@@ -122,7 +124,7 @@ export function traceDirective(directiveName = "trace") {
 
                   const result = await resolve(source, args, context, info);
 
-                  if (internalCtx.includeResult) {
+                  if (internalCtx.includeResult && isRoot) {
                     if (
                       typeof result === "number" ||
                       typeof result === "string" ||

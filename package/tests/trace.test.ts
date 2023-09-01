@@ -539,7 +539,7 @@ describe("@trace directive", () => {
 
     const nameResult =
       nameSpan!.span.attributes[AttributeName.OPERATION_RESULT];
-    expect(nameResult).toEqual(randomString);
+    expect(nameResult).toEqual(undefined);
   });
 
   test("should append graphql schema hash to trace attribute", async () => {
