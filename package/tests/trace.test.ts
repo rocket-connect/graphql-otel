@@ -19,8 +19,6 @@ import { GraphQLOTELContext } from "../src/context";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { AttributeName } from "../src/trace-directive";
 import { describe, beforeEach, test, expect } from "@jest/globals";
-import { excludedKeys } from "../src/utils";
-import exp from "constants";
 
 const util = require("util");
 const sleep = util.promisify(setTimeout);
