@@ -1,6 +1,6 @@
 {
   "name": "graphql-otel",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Opentelemetry GraphQL Schema Directives.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,6 +31,9 @@
   ],
   "author": "Rocket Connect - www.rocketconnect.co.uk",
   "license": "MIT",
+  "peerDependencies": {
+    "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0"
+  },
   "devDependencies": {
     "@graphql-tools/schema": "^10.0.0",
     "@jest/globals": "^29.6.4",
@@ -53,7 +56,6 @@
     "@opentelemetry/core": "^1.15.2",
     "@opentelemetry/instrumentation": "^0.41.2",
     "@opentelemetry/sdk-trace-base": "^1.15.2",
-    "graphql": "^16.8.0",
     "safe-json-stringify": "^1.2.0"
   }
 }
